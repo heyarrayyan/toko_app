@@ -32,9 +32,7 @@ GoRouter createRouter(AuthState authState, CartState cartState) {
  final from = Uri.encodeComponent(state.uri.toString());
  return '/login?from=$from';
  }
- if (loggedIn &&
-     goingPublic &&
-     state.matchedLocation != '/splash') {
+ if (loggedIn && goingPublic && state.matchedLocation != '/splash') {
  return state.uri.queryParameters['from'] ?? '/home';
  }
  return null;
