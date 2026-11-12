@@ -1,0 +1,14 @@
+import 'package:flutter/foundation.dart';
+class AuthState extends ChangeNotifier {
+ String? _username;
+ bool get isLoggedIn => _username != null;
+ String get username => _username ?? '';
+ void login(String username) {
+ _username = username;
+ notifyListeners(); // memicu redirect dievaluasi ulang
+ }
+ void logout() {
+ _username = null;
+ notifyListeners();
+ }
+}
