@@ -8,10 +8,11 @@ import '../pages/not_found_page.dart';
 import '../pages/product_detail_page.dart';
 import '../pages/profile_page.dart';
 import '../pages/search_page.dart';
+import '../pages/splash_page.dart';
 import '../state/auth_state.dart';
 import '../state/cart_state.dart';
 GoRouter createRouter(AuthState authState, CartState cartState) {
- const publicRoutes = ['/login'];
+ const publicRoutes = ['/login', '/splash'];
  // Rute detail dipakai di tab Beranda dan tab Cari
  GoRoute productDetailRoute() => GoRoute(
  path: 'product/:id',
@@ -21,7 +22,7 @@ GoRouter createRouter(AuthState authState, CartState cartState) {
  },
  );
  return GoRouter(
- initialLocation: '/home',
+ initialLocation: '/splash',
  debugLogDiagnostics: true,
  refreshListenable: authState,
  redirect: (context, state) {
@@ -31,7 +32,9 @@ GoRouter createRouter(AuthState authState, CartState cartState) {
  final from = Uri.encodeComponent(state.uri.toString());
  return '/login?from=$from';
  }
- if (loggedIn && goingPublic) {
+ if (loggedIn &&
+     goingPublic &&
+     state.matchedLocation != '/splash') {
  return state.uri.queryParameters['from'] ?? '/home';
  }
  return null;
@@ -39,6 +42,10 @@ GoRouter createRouter(AuthState authState, CartState cartState) {
  errorBuilder: (context, state) =>
  NotFoundPage(location: state.uri.toString()),
  routes: [
+ GoRoute(
+ path: '/splash',
+ builder: (context, state) => const SplashPage(),
+ ),
  // Di luar shell: tampil tanpa NavigationBar
  GoRoute(
  path: '/login',
